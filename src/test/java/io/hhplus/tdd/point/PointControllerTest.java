@@ -23,15 +23,15 @@ class PointControllerTest {
         // given-when
         UserPoint usersPoint = pointController.point(1);
         // then
-        assertSame(0L, usersPoint.point());
+        assertEquals(0L, usersPoint.point());
     }
 
     @Test
     public void test_유저가_충전한다(){
         // given-when
-        pointController.charge(1, 1000);
+        UserPoint result = pointController.charge(1, 1000);
         // then
-        assertSame(1000L, pointController.point(1));
+        assertEquals(1000L, result.point());
     }
 
     @Test
@@ -41,7 +41,7 @@ class PointControllerTest {
         // when
         UserPoint usersPoint = pointController.point(1);
         // then
-        assertSame(1000L, usersPoint.point());
+        assertEquals(1000L, usersPoint.point());
     }
 
 }
