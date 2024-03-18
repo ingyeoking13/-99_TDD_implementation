@@ -85,4 +85,18 @@ class PointControllerTest {
         assertTrue(pointHistories.isEmpty());
     }
 
+    @Test
+    public void test_사용유저의_히스토리를_가져온다() {
+        // given
+        pointController.charge(1, 1000);
+        pointController.use(1, 700);
+        // when
+        List<PointHistory> pointHistories = pointController.history(1);
+        // then
+        assertEquals(TransactionType.CHARGE, pointHistories.get(0).type());
+        assertEquals(1000L, pointHistories.get(0).amount());
+        assertEquals(TransactionType.USE, pointHistories.get(1).type());
+        assertEquals(700L, pointHistories.get(1).amount());
+    }
+
 }
