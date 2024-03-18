@@ -5,6 +5,8 @@ import io.hhplus.tdd.database.UserPointTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PointControllerTest {
@@ -68,6 +70,16 @@ class PointControllerTest {
         pointController.charge(1, 1000);
         // when-then
         assertThrows(MinusPointException.class, () -> pointController.use(1, 1100));
+    }
+
+
+    @Test
+    public void test_미사용유저의_히스토리를_가져온다(){
+        // given-when
+        List<PointHistory> pointHistories = pointController.history(1);
+
+        // then
+        assertTrue(pointHistories.isEmpty());
     }
 
 }
