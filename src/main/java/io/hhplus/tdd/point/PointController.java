@@ -1,5 +1,6 @@
 package io.hhplus.tdd.point;
 
+import io.hhplus.tdd.Exceptions.MinusPointException;
 import io.hhplus.tdd.database.UserPointTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,10 @@ public class PointController {
             @PathVariable long id,
             @RequestBody long amount
     ) {
+        UserPoint currentPoint = this.userPointTable.selectById(id);
+        if (currentPoint.point() < amount) {
+            throw new MinusPointException();
+        }
         return new UserPoint(0, 0, 0);
     }
 }
