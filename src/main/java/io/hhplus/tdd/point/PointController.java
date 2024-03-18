@@ -63,6 +63,8 @@ public class PointController {
         if (currentPoint.point() < amount) {
             throw new MinusPointException();
         }
-        return new UserPoint(0, 0, 0);
+        long newAmount = currentPoint.point() - amount;
+        this.userPointTable.insertOrUpdate(id, newAmount);
+        return this.userPointTable.selectById(id);
     }
 }
