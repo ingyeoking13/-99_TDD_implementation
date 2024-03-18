@@ -62,4 +62,12 @@ class PointControllerTest {
         assertEquals(700L, point.point());
     }
 
+    @Test
+    public void test_충전유저가_과도한_포인트를_사용한다(){
+        // given
+        pointController.charge(1, 1000);
+        // when-then
+        assertThrows(MinusPointException.class, () -> pointController.use(1, 1100));
+    }
+
 }
