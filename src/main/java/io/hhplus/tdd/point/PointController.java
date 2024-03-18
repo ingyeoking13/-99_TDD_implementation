@@ -26,7 +26,7 @@ public class PointController {
     public UserPoint point(
             @PathVariable long id
     ) {
-        return new UserPoint(0, 0, 0);
+        return this.userPointTable.selectById(id);
     }
 
     /**

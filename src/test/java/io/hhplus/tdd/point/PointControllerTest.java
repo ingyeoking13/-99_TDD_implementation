@@ -1,5 +1,6 @@
 package io.hhplus.tdd.point;
 
+import io.hhplus.tdd.database.UserPointTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,10 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class PointControllerTest {
 
     private PointController pointController;
+    private UserPointTable userPointTable;
 
     @BeforeEach
     void beforeAll() {
-        pointController = new PointController();
+        userPointTable = new UserPointTable();
+        pointController = new PointController(userPointTable);
     }
 
 
