@@ -1,6 +1,7 @@
 package io.hhplus.tdd.point;
 
 import io.hhplus.tdd.Exceptions.MinusPointException;
+import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +16,11 @@ public class PointController {
 
     private static final Logger log = LoggerFactory.getLogger(PointController.class);
     @Autowired private final UserPointTable userPointTable;
+    @Autowired private final PointHistoryTable pointHistoryTable;
 
-    public PointController(UserPointTable userPointTable) {
+    public PointController(UserPointTable userPointTable, PointHistoryTable pointHistoryTable) {
         this.userPointTable = userPointTable;
+        this.pointHistoryTable = pointHistoryTable;
     }
 
     /**
@@ -30,6 +33,8 @@ public class PointController {
         return this.userPointTable.selectById(id);
     }
 
+
+
     /**
      * TODO - 특정 유저의 포인트 충전/이용 내역을 조회하는 기능을 작성해주세요.
      */
@@ -37,7 +42,7 @@ public class PointController {
     public List<PointHistory> history(
             @PathVariable long id
     ) {
-        return List.of();
+        return this.pointHistoryTable.selectAllByUserId(id);
     }
 
     /**

@@ -1,6 +1,7 @@
 package io.hhplus.tdd.point;
 
 import io.hhplus.tdd.Exceptions.MinusPointException;
+import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,11 +14,13 @@ class PointControllerTest {
 
     private PointController pointController;
     private UserPointTable userPointTable;
+    private PointHistoryTable pointHistoryTable;
 
     @BeforeEach
     void beforeAll() {
         userPointTable = new UserPointTable();
-        pointController = new PointController(userPointTable);
+        pointHistoryTable = new PointHistoryTable();
+        pointController = new PointController(userPointTable, pointHistoryTable);
     }
 
 
