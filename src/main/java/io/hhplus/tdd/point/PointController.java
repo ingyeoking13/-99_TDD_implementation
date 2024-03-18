@@ -53,6 +53,8 @@ public class PointController {
             @PathVariable long id,
             @RequestBody long amount
     ) {
+
+        this.pointHistoryTable.insert(id, amount, TransactionType.CHARGE, 0);
         return this.userPointTable.insertOrUpdate(id, amount);
     }
 
@@ -69,7 +71,10 @@ public class PointController {
             throw new MinusPointException();
         }
         long newAmount = currentPoint.point() - amount;
+
+        this.pointHistoryTable.insert(id, amount, TransactionType.USE, 0);
         this.userPointTable.insertOrUpdate(id, newAmount);
+
         return this.userPointTable.selectById(id);
     }
 }
