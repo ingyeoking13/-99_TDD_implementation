@@ -1,5 +1,6 @@
 package io.hhplus.tdd.point;
 
+import io.hhplus.tdd.Exceptions.MinusPointException;
 import io.hhplus.tdd.database.UserPointTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,12 @@ class PointControllerTest {
         UserPoint usersPoint = pointController.point(1);
         // then
         assertEquals(1000L, usersPoint.point());
+    }
+
+    @Test
+    public void test_신규_유저가_포인트를_사용한다(){
+        // given-when-then
+        assertThrows(MinusPointException.class, () -> pointController.use(1, 1000));
     }
 
 }
