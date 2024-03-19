@@ -7,6 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -97,6 +100,26 @@ class PointControllerTest {
         assertEquals(1000L, pointHistories.get(0).amount());
         assertEquals(TransactionType.USE, pointHistories.get(1).type());
         assertEquals(700L, pointHistories.get(1).amount());
+    }
+
+    @Test
+    public void test_동시성환경에서_유저가_충전을_수행한다() throws InterruptedException {
+        // given
+        int numThreads = 10;
+        ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
+        CountDownLatch doneSignal = new CountDownLatch(numThreads);
+
+        // when
+        for (int i=0; i<numThreads; i++) {
+            executorService.execute(() -> {
+                pointController.charge(1, 100);
+                doneSignal.countDown();
+            });
+        }
+        doneSignal.await();
+        List<PointHistory> pointHistories = pointHistoryTable.selectAllByUserId(1);
+        assertEquals(10, pointHistories.size());
+        assertEquals(1000, userPointTable.selectById(1L).point());
     }
 
 }
