@@ -130,9 +130,9 @@ class PointControllerTest {
             });
         }
         doneSignal.await();
-        List<PointHistory> pointHistories = pointHistoryTable.selectAllByUserId(1);
+        List<PointHistory> pointHistories = pointController.history(1);
         assertEquals(10, pointHistories.size());
-        assertEquals(1000, userPointTable.selectById(1L).point());
+        assertEquals(1000, pointController.point(1).point());
     }
 
     @Test
@@ -153,9 +153,9 @@ class PointControllerTest {
         }
         doneSignal.await();
 
-        List<PointHistory> pointHistories = pointHistoryTable.selectAllByUserId(1);
+        List<PointHistory> pointHistories = pointController.history(1);
         assertEquals(11, pointHistories.size());
-        assertEquals(0, userPointTable.selectById(1L).point());
+        assertEquals(0, pointController.point(1).point());
     }
 
 
