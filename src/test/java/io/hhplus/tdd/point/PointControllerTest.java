@@ -18,12 +18,14 @@ class PointControllerTest {
     private PointController pointController;
     private UserPointTable userPointTable;
     private PointHistoryTable pointHistoryTable;
+    private PointService pointService;
 
     @BeforeEach
     void beforeAll() {
         userPointTable = new UserPointTable();
         pointHistoryTable = new PointHistoryTable();
-        pointController = new PointController(userPointTable, pointHistoryTable);
+        pointService = new PointService(userPointTable, pointHistoryTable);
+        pointController = new PointController(pointService);
     }
 
 

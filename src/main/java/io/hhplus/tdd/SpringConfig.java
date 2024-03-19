@@ -4,6 +4,7 @@ import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import io.hhplus.tdd.point.PointController;
 import io.hhplus.tdd.point.PointHistory;
+import io.hhplus.tdd.point.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,7 @@ public class SpringConfig {
 
     @Autowired
     public PointController pointController(){
-        return new PointController(pointTable(), pointHistoryTable());
+        return new PointController(pointService());
     }
 
     @Bean
@@ -31,4 +32,7 @@ public class SpringConfig {
 
     @Bean
     public PointHistoryTable pointHistoryTable() { return new PointHistoryTable(); }
+
+    @Bean
+    public PointService pointService() { return new PointService(pointTable(), pointHistoryTable()); }
 }

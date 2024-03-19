@@ -15,12 +15,11 @@ import java.util.List;
 public class PointController {
 
     private static final Logger log = LoggerFactory.getLogger(PointController.class);
-    @Autowired private final UserPointTable userPointTable;
-    @Autowired private final PointHistoryTable pointHistoryTable;
 
-    public PointController(UserPointTable userPointTable, PointHistoryTable pointHistoryTable) {
-        this.userPointTable = userPointTable;
-        this.pointHistoryTable = pointHistoryTable;
+    @Autowired private final PointService pointService;
+
+    public PointController(PointService pointService) {
+        this.pointService = pointService;
     }
 
     /**
@@ -30,9 +29,8 @@ public class PointController {
     public UserPoint point(
             @PathVariable long id
     ) {
-        return this.userPointTable.selectById(id);
+        return this.pointService.getPointById(id);
     }
-
 
 
     /**
@@ -42,7 +40,7 @@ public class PointController {
     public List<PointHistory> history(
             @PathVariable long id
     ) {
-        return this.pointHistoryTable.selectAllByUserId(id);
+        return this.pointService.getHistoryByUserId(id);
     }
 
     /**
@@ -53,11 +51,7 @@ public class PointController {
             @PathVariable long id,
             @RequestBody long amount
     ) {
-        UserPoint result = this.userPointTable.insertOrUpdate(id,
-                amount + this.userPointTable.selectById(id).point()
-        );
-        this.pointHistoryTable.insert(id, amount, TransactionType.CHARGE, result.updateMillis());
-        return result;
+        return this.pointService.charge(id, amount);
     }
 
     /**
@@ -68,15 +62,6 @@ public class PointController {
             @PathVariable long id,
             @RequestBody long amount
     ) {
-        UserPoint currentPoint = this.userPointTable.selectById(id);
-        if (currentPoint.point() < amount) {
-            throw new MinusPointException();
-        }
-        long newAmount = currentPoint.point() - amount;
-
-        UserPoint result = this.userPointTable.insertOrUpdate(id, newAmount);
-        this.pointHistoryTable.insert(id, amount, TransactionType.USE, result.updateMillis());
-
-        return this.userPointTable.selectById(id);
+        return this.pointService.use(id, amount);
     }
 }
