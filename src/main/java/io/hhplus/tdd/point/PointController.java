@@ -53,7 +53,9 @@ public class PointController {
             @PathVariable long id,
             @RequestBody long amount
     ) {
-        UserPoint result = this.userPointTable.insertOrUpdate(id, amount);
+        UserPoint result = this.userPointTable.insertOrUpdate(id,
+                amount + this.userPointTable.selectById(id).point()
+        );
         this.pointHistoryTable.insert(id, amount, TransactionType.CHARGE, result.updateMillis());
         return result;
     }
