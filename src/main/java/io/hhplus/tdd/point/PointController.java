@@ -53,9 +53,9 @@ public class PointController {
             @PathVariable long id,
             @RequestBody long amount
     ) {
-
-        this.pointHistoryTable.insert(id, amount, TransactionType.CHARGE, 0);
-        return this.userPointTable.insertOrUpdate(id, amount);
+        UserPoint result = this.userPointTable.insertOrUpdate(id, amount);
+        this.pointHistoryTable.insert(id, amount, TransactionType.CHARGE, result.updateMillis());
+        return result;
     }
 
     /**
@@ -72,8 +72,8 @@ public class PointController {
         }
         long newAmount = currentPoint.point() - amount;
 
-        this.pointHistoryTable.insert(id, amount, TransactionType.USE, 0);
-        this.userPointTable.insertOrUpdate(id, newAmount);
+        UserPoint result = this.userPointTable.insertOrUpdate(id, newAmount);
+        this.pointHistoryTable.insert(id, amount, TransactionType.USE, result.updateMillis());
 
         return this.userPointTable.selectById(id);
     }
