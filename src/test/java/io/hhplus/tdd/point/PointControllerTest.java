@@ -54,6 +54,17 @@ class PointControllerTest {
     }
 
     @Test
+    public void test_충전_유저_포인트_조회_2(){
+        // given
+        pointController.charge(1, 1000);
+        pointController.charge(1, 2000);
+        // when
+        UserPoint usersPoint = pointController.point(1);
+        // then
+        assertEquals(3000L, usersPoint.point());
+    }
+
+    @Test
     public void test_신규_유저가_포인트를_사용한다(){
         // given-when-then
         assertThrows(MinusPointException.class, () -> pointController.use(1, 1000));
