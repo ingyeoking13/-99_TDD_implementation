@@ -17,6 +17,12 @@ public class SpringConfig {
 
 
     @Bean
+    public PointController pointController() { return new PointController(
+            pointService()
+    );
+    };
+
+    @Bean
     public UserPointTable pointTable(){
         return new UserPointTable();
     }
