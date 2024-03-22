@@ -12,6 +12,7 @@ public class PointService {
     @Autowired private final UserPointTable userPointTable;
     @Autowired private final PointHistoryTable pointHistoryTable;
 
+
     public PointService(UserPointTable userPointTable, PointHistoryTable pointHistoryTable) {
         this.userPointTable = userPointTable;
         this.pointHistoryTable = pointHistoryTable;
@@ -44,6 +45,10 @@ public class PointService {
         this.pointHistoryTable.insert(id, amount, TransactionType.USE, result.updateMillis());
 
         return this.userPointTable.selectById(id);
+    }
+
+    public List<PointHistory> getHistories(long id) {
+        return this.pointHistoryTable.selectAllByUserId(id);
     }
 
 }
