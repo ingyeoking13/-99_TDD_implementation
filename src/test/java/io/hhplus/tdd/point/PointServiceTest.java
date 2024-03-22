@@ -3,6 +3,7 @@ package io.hhplus.tdd.point;
 import io.hhplus.tdd.Exceptions.MinusPointException;
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
+import io.hhplus.tdd.point.stub.UserPointTableStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ class PointServiceTest {
 
     @BeforeEach
     void beforeAll() {
-        userPointTable = new UserPointTable();
+        userPointTable = new UserPointTableStub();
         pointHistoryTable = new PointHistoryTable();
         pointService = new PointService(userPointTable, pointHistoryTable);
     }
